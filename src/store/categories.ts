@@ -15,36 +15,36 @@ export const useCategoriesStore = defineStore('categories', () => {
     const lightOrange = '#ffcc80'; // Светло-оранжевый
     
     const categoriesList = ref([
-        {
-            name: 'Работа',
-            id: 0,
-            styles: {backgroundColor: yellow},
-            iconName: 'starOutline'
-        },
-        {
-            name: 'Спорт',
-            id: 1,
-            styles: {backgroundColor: lightBlue},
-            iconName: 'star'
-        },
+        // {
+        //     name: 'Работа',
+        //     id: 0,
+        //     styles: {backgroundColor: yellow},
+        //     iconName: 'starOutline'
+        // },
+        // {
+        //     name: 'Спорт',
+        //     id: 1,
+        //     styles: {backgroundColor: lightBlue},
+        //     iconName: 'star'
+        // },
         // {
         //     name: 'Магазин',
         //     id: 2,
         //     styles: {backgroundColor: lightGreenBg},
         //     iconName: 'star'
         // },
-        {
-            name: 'Чтение',
-            id: 3,
-            styles: {backgroundColor: lightRed},
-            iconName: 'star'
-        },
-        {
-            name: 'Кино',
-            id: 4,
-            styles: {backgroundColor: lightIndigo},
-            iconName: 'star'
-        },
+        // {
+        //     name: 'Чтение',
+        //     id: 3,
+        //     styles: {backgroundColor: lightRed},
+        //     iconName: 'star'
+        // },
+        // {
+        //     name: 'Кино',
+        //     id: 4,
+        //     styles: {backgroundColor: lightIndigo},
+        //     iconName: 'star'
+        // },
         
     ])
   

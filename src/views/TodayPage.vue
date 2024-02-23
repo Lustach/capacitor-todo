@@ -3,7 +3,6 @@
     <ion-content :fullscreen="true">
       <div class="title">
         <h1>Сегодня</h1>
-        <!-- <ion-icon :icon="search" color="primary" size="medium"></ion-icon> -->
       </div>
       <div v-for="item in store.todoList" :key="item.id">
         {{ item }}
@@ -16,7 +15,7 @@
             </ion-item-option>
           </ion-item-options>
           <ion-item>
-            <input type="checkbox" @click="deleteItem"/>
+            <input type="checkbox" @click="completeItem" />
             <ion-label
               >{{ item.name }}
               <p>{{ item.date }}</p>
@@ -28,20 +27,22 @@
             <ion-item-option color="none"
               ><ion-icon :icon="starOutline"></ion-icon
             ></ion-item-option>
-            <ion-item-option color="none"
+            <ion-item-option color="none" @click="deleteTodo(item.id)"
               ><ion-icon :icon="trashOutline"></ion-icon
             ></ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
       </ion-list>
     </ion-content>
+    <Alert />
   </ion-page>
 </template>
 
 <script lang="ts" setup>
-import { useCounterStore } from "@/store/counter";
-import { markRaw, ref } from "vue";
-import { search, trashOutline, starOutline, archiveOutline } from "ionicons/icons";
+import { useTodoStore } from "@/store/todoStore";
+import Alert from "@/components/ui/Alert/Alert.vue";
+import { onMounted } from "vue";
+import { trashOutline, starOutline, archiveOutline } from "ionicons/icons";
 import {
   IonPage,
   IonIcon,
@@ -51,21 +52,25 @@ import {
   IonItemOption,
   IonItemOptions,
   IonItemSliding,
-  IonItemGroup,
   IonLabel,
-  IonCheckbox,
 } from "@ionic/vue";
 
 import Chip from "@/components/ui/Chip.vue";
 
-const store = useCounterStore();
+const store = useTodoStore();
+const { deleteTodo, getTodoList } = useTodoStore();
 console.log(store);
-const value = defineModel();
-const check = (event) => {
-  console.log(event.target, this);
-  // event.preventDefault();
-  event.stopPropagation();
-};
+// const check = (event) => {
+//   console.log(event.target, this);
+//   // event.preventDefault();
+//   event.stopPropagation();
+// };
+
+const completeItem = () => {};
+
+onMounted(async () => {
+  await getTodoList();
+});
 </script>
 <style scoped lang="scss">
 h1 {

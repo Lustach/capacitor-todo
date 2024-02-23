@@ -6,26 +6,20 @@
   </ion-header>
   <ion-content class="ion-padding">
     <h1>Page One</h1>
-    <!-- <ion-nav-link router-direction="forward" :component="component">
-      <ion-button>Go to Page Two</ion-button>
-    </ion-nav-link> -->
   </ion-content>
 </template>
 
 <script lang="ts">
-import { markRaw } from "vue";
 import {
   IonHeader,
   IonTitle,
   IonToolbar,
   IonContent,
-  IonNavLink,
-  IonButton,
 } from "@ionic/vue";
 // import PageTwo from "./PageTwo.vue";
 
 export default {
-  components: { IonHeader, IonTitle, IonToolbar, IonContent, IonNavLink, IonButton },
+  components: { IonHeader, IonTitle, IonToolbar, IonContent },
   data() {
     return {
     //   component: markRaw(PageTwo),

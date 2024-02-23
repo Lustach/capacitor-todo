@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 import CreateTodoModal from "@/components/modals/CreateTodoModal.vue";
-import { useIonRouter } from "@ionic/vue";
+// import { useIonRouter } from "@ionic/vue";
 import AppHeader from "@/components/app/AppHeader.vue";
 import Menu from "@/components/app/Menu.vue";
 // import PageOne from "@/views/PageOne.vue";
@@ -27,14 +27,12 @@ const takePhoto = () => {
   console.log("take photo");
 };
 
-const ionRouter = useIonRouter();
-// const component = markRaw(PageOne);
+// const ionRouter = useIonRouter();
 </script>
 <style lang="scss">
 .view {
   margin-top: 60px;
 }
 .default-modal {
-
 }
 </style>

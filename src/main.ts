@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router';
 import { createPinia } from 'pinia'
+import API from '@/plugins/axios';
 
 import { IonicVue } from '@ionic/vue';
 
@@ -30,6 +31,8 @@ const app = createApp(App)
   .use(IonicVue)
   .use(router)
   .use(pinia);
+
+app.provide('API', API)
 
 router.isReady().then(() => {
   app.mount('#app');

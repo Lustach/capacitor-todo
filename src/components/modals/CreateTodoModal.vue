@@ -8,6 +8,11 @@
         label-placement="floating"
         fill="solid"
         placeholder="Введите текст"
+        ref="name"
+        error-text="Invalid email"
+        v-model="formModel.name"
+        @ionInput="validate"
+        @ionBlur="markTouched"
       ></ion-input>
       <ion-textarea
         style="margin-top: 20px"
@@ -16,6 +21,7 @@
         label-placement="floating"
         :counter="true"
         :maxlength="20"
+        v-model="formModel.description"
       ></ion-textarea>
       <!-- <ion-item> -->
       <div class="actions-container">
@@ -33,6 +39,7 @@
           shape="round"
           size="small"
           style="margin: auto; margin-right: 0"
+          @click="addTodoItem"
         >
           <ion-icon slot="icon-only" :icon="sendOutline"></ion-icon>
         </ion-button>
@@ -57,6 +64,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, unref } from "vue";
 import CategoriesModal from "@/components/modals/CategoriesModal.vue";
 import {
   IonButton,
@@ -67,13 +75,62 @@ import {
   IonTextarea,
 } from "@ionic/vue";
 import { timeOutline, pricetagOutline, flagOutline, sendOutline } from "ionicons/icons";
-import { ref } from "vue";
+import { useTodoStore } from "@/store/todoStore";
+import { z } from "zod";
 
+const todo = z.object({
+  name: z.string().min(2),
+  description: z.string(),
+  // date: z.date(),
+  // category: z.string(),
+  // id: z.number(),
+});
+
+const store = useTodoStore();
+const {addTodo} = store;
 const dateModal = ref();
-
 const dismiss = () => dateModal.value.$el.dismiss();
-
 const date = ref();
+const name = ref();
+const formModel = ref({
+  name: "",
+  description: "",
+  category: "work",
+  date: new Date(),
+  // category: {
+  //   name: "Work"
+  // }
+});
+// const nameModel = ref();
+const validate = (ev) => {
+  const value = ev.target.value;
+  console.log(value, name.value);
+  name.value.$el.classList.remove("ion-valid");
+  name.value.$el.classList.remove("ion-invalid");
+
+  if (value === "") return;
+
+  // validateEmail(value)
+  try {
+    todo.parse(formModel.value);
+    name.value.$el.classList.add("ion-valid");
+  } catch (e) {
+    name.value.$el.classList.add("ion-invalid");
+  }
+};
+
+const markTouched = () => {
+  name.value.$el.classList.add("ion-touched");
+};
+
+const addTodoItem = () => {
+  addTodo(formModel.value)
+  // store.todoList.push(formModel.value);
+  name.value.$el.value = "";
+  name.value.$el.classList.remove("ion-valid");
+  name.value.$el.classList.remove("ion-invalid");
+};
+// console.log(store.todoList)
 </script>
 <style scoped>
 ion-modal#modal {

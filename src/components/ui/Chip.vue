@@ -12,7 +12,7 @@
 
   <ion-chip>
     <ion-icon :icon="pin" color="primary"></ion-icon>
-    <ion-label>University</ion-label>
+    <ion-label>{{ info.name || info }}</ion-label>
     <!-- <ion-icon :icon="close"></ion-icon> -->
   </ion-chip>
 </template>
@@ -24,6 +24,12 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   components: { IonChip, IonLabel, IonIcon },
+  props: {
+    info: {
+      type: String,
+      required: true,
+    },
+  },
   setup() {
     return {
       close,
