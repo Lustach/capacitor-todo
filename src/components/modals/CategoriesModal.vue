@@ -32,12 +32,16 @@
             color="primary"
           ></ion-icon>
         </ion-button>
-        <!-- <div class="categories-item_block" :style="{ ...item.styles }">
-          <ion-icon :src="icons[item.icon_name]" color="primary"></ion-icon>
-        </div> -->
         <p class="categories-item_name">{{ item.name }}</p>
       </div>
-      <div class="categories-item" id="btn-add">
+      <div style="margin-left: 28px" class="categories-item">
+        <ion-button fill="clear" id="open-create-category-modal">
+          <ion-icon slot="icon-only" :icon="icons['add']" color="primary"></ion-icon>
+        </ion-button>
+        <p class="categories-item_name">Создать</p>
+      </div>
+      <CreateCategoryModal />
+      <!-- <div class="categories-item" id="btn-add">
         <ion-button fill="clear" size="small" style="width: auto">
           <div class="categories-item_block">
             <ion-icon slot="icon-only" :src="icons['add']" color="primary"></ion-icon>
@@ -45,24 +49,8 @@
         </ion-button>
 
         <p class="categories-item_name">Создать</p>
-      </div>
+      </div> -->
     </div>
-    <!-- <ion-toolbar>
-      <ion-button fill="clear" style="margin: 0 0 0 auto; padding-left: 20px"
-        >Добавить категорию</ion-button
-      >
-    </ion-toolbar> -->
-    <!-- <ion-list>
-        <ion-item>
-          <ion-avatar slot="start">
-            <ion-img src="https://i.pravatar.cc/300?u=b"></ion-img>
-          </ion-avatar>
-          <ion-label>
-            <h2>Connor Smith</h2>
-            <p>Sales Rep</p>
-          </ion-label>
-        </ion-item>
-      </ion-list> -->
   </ion-modal>
 </template>
 
@@ -70,7 +58,7 @@
 import { ref, onMounted } from "vue";
 import * as icons from "ionicons/icons";
 import { useCategoriesStore } from "@/store/categories";
-
+import CreateCategoryModal from "./CreateCategoryModal.vue";
 import {
   createAnimation,
   IonButtons,
