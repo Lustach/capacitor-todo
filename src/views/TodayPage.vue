@@ -36,25 +36,11 @@
           </ion-item-options>
         </ion-item-sliding>
       </ion-list>
+      <!-- <ion-infinite-scroll @ionInfinite="ionInfinite">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll> -->
     </ion-content>
     <Alert />
-    <ion-modal :is-open="isOpen">
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>View Task Modal</ion-title>
-          <ion-buttons slot="end">
-            <ion-button @click="editTodo(false)">Close</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem
-          recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum
-          consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta.
-        </p>
-      </ion-content>
-    </ion-modal>
   </ion-page>
 </template>
 
@@ -64,7 +50,7 @@ import { format } from "date-fns";
 import { useTodoStore } from "@/store/todoStore";
 import { useCategoriesStore } from "@/store/categories";
 import Alert from "@/components/ui/Alert/Alert.vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { trashOutline, starOutline, archiveOutline } from "ionicons/icons";
 import {
   IonPage,
@@ -76,9 +62,9 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
-  IonModal,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
 } from "@ionic/vue";
-
 import Chip from "@/components/ui/Chip.vue";
 
 const store = useTodoStore();
@@ -86,10 +72,13 @@ const categoriesStore = useCategoriesStore();
 const { deleteTodo, getTodoList } = useTodoStore();
 const completeItem = () => {};
 const getChipInfo = (category_id: number) => {
+  //todo пересчёт при открытии модалки
   console.log(store, category_id);
   return categoriesStore.categoriesList.find((e) => e.id === category_id);
 };
+// const getChipInfo = computed(()=>{
 
+// })
 const isOpen = ref(false);
 const editTodo = (showModal: boolean) => {
   isOpen.value = showModal;
@@ -144,6 +133,7 @@ ion-item {
     &:hover {
       background-color: rgb(253, 251, 251) !important;
       cursor: pointer;
+      /* margin-top: 10px; */
     }
   }
 }

@@ -51,13 +51,14 @@ export const useCategoriesStore = defineStore('categories', () => {
         
     ])
     const getCategories = async ()=>{
+      if(categoriesList.value.length) return
         try{
           const result = await API.categories.get()
           categoriesList.value = result.data
         }catch(e){
             console.log(e)
         }
-      }
+    }
   
     return { categoriesList,getCategories }
-  })
+})

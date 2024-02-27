@@ -4,24 +4,30 @@
       <h2>Новая задача</h2>
 
       <ion-input
+        :debounce="100"
         label="Название"
         label-placement="floating"
         fill="solid"
         placeholder="Введите текст"
         ref="name"
-        error-text="Invalid email"
+        error-text="Заполните поле"
         v-model="formModel.name"
-        @ionInput="validate"
-        @ionBlur="markTouched"
+        @ionInput="validate(name)"
+        @ionBlur="markTouched('name')"
       ></ion-input>
       <ion-textarea
+        :debounce="100"
+        ref="description"
+        error-text="Заполните поле"
         style="margin-top: 20px"
         fill="solid"
         label="Описание"
         label-placement="floating"
         :counter="true"
-        :maxlength="20"
+        :maxlength="200"
         v-model="formModel.description"
+        @ionInput="validate(description)"
+        @ionBlur="markTouched('description')"
       ></ion-textarea>
       <!-- <ion-item> -->
       <div class="actions-container">
@@ -64,7 +70,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, type Ref, toRefs, reactive  } from "vue";
 import CategoriesModal from "@/components/modals/CategoriesModal.vue";
 import {
   IonButton,
@@ -78,59 +84,79 @@ import { timeOutline, pricetagOutline, flagOutline, sendOutline } from "ionicons
 import { useTodoStore } from "@/store/todoStore";
 import { z } from "zod";
 
+// interface RefState {
+//   name: Ref<string>;
+//   description: Ref<string>;
+// }
+
+
 const todo = z.object({
-  name: z.string().min(2),
-  description: z.string(),
+  name: z.string().min(2).max(60),
+  description: z.string().min(5).max(200),
   // date: z.date(),
   // category: z.string(),
   // id: z.number(),
 });
 
 const store = useTodoStore();
-const {addTodo} = store;
+const { addTodo } = store;
 const dateModal = ref();
+
 const dismiss = () => dateModal.value.$el.dismiss();
+
+const refState = reactive({
+  name: ref(''),
+  description: ref('')
+})
+const { name, description } = toRefs(refState);
 const date = ref();
-const name = ref();
 const formModel = ref({
   name: "",
   description: "",
-  category: "work",
+  category_id: "",
   date: new Date(),
-  // category: {
-  //   name: "Work"
-  // }
+  // category_id:"",
 });
-// const nameModel = ref();
-const validate = (ev) => {
-  const value = ev.target.value;
-  console.log(value, name.value);
-  name.value.$el.classList.remove("ion-valid");
-  name.value.$el.classList.remove("ion-invalid");
 
-  if (value === "") return;
-
-  // validateEmail(value)
-  try {
-    todo.parse(formModel.value);
-    name.value.$el.classList.add("ion-valid");
-  } catch (e) {
-    name.value.$el.classList.add("ion-invalid");
-  }
+const validate = (ref:Ref) => {
+  ref.$el.classList.remove("ion-valid");
+  ref.$el.classList.remove("ion-invalid");
+  // const refObj = toRefs(refState)
+  // refObj[key].value.$el.classList.remove("ion-valid");
+  // refObj[key].value.$el.classList.remove("ion-invalid");
 };
 
-const markTouched = () => {
-  name.value.$el.classList.add("ion-touched");
+// const markTouched = (key: string) => {
+//   const refObj = toRefs(refState)
+//   refObj[key].value.$el.classList.add("ion-touched")
+// };
+
+const markTouched = (key: string) => {
+  const refObj = toRefs(refState) as { [key: string]: Ref<any> };
+  refObj[key].value.$el.classList.add("ion-touched");
 };
 
 const addTodoItem = () => {
-  addTodo(formModel.value)
+  try {
+    console.log("start validation");
+    todo.parse(formModel.value);
+    [name, description].forEach((element) => element.value.$el.classList.add("ion-valid"));
+    // addTodo(formModel.value)
   // store.todoList.push(formModel.value);
-  name.value.$el.value = "";
-  name.value.$el.classList.remove("ion-valid");
-  name.value.$el.classList.remove("ion-invalid");
+    console.log("end validation");
+  } catch (e) {
+    console.error(e)
+    const refObj = toRefs(refState)
+    const zodObj = JSON.parse(e)
+    for (const key in zodObj) {
+      if (Object.prototype.hasOwnProperty.call(zodObj, key)) {
+        const element = zodObj[key];
+        markTouched(element.path)
+        refObj[element.path].value.$el.classList.add("ion-invalid")
+      }
+    }
+  }
 };
-// console.log(store.todoList)
 </script>
 <style scoped>
 ion-modal#modal {
