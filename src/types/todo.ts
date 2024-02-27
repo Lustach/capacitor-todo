@@ -3,5 +3,5 @@ export type Todo = {
     description: string;
     date: Date;
     id: number;
-    category: string;
+    category_id: number;
 }

@@ -71,6 +71,7 @@ export const useTodoStore = defineStore("todoStore", () => {
     const result = await API.todo.add(data)
     return result
   }
+  // const updateTodo = async(data:Todo)=>{}
 
   return { count, name, doubleCount, increment,
      todoList,getTodoList,deleteTodo, addTodo };

@@ -9,7 +9,7 @@ module.exports = {
     '@vue/typescript/recommended'
   ],
   parserOptions: {
-    ecmaVersion: 2020
+    ecmaVersion: 'latest'
   },
   rules: {
     'vue/multi-word-component-names': 'off',

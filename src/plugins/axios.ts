@@ -6,6 +6,12 @@ const API: API = {
         add: (data)=>axios.post('/todos',{data: data}),
         edit: (id: number)=>axios.put(`/todos/${id}`),
         delete: (id: number)=>axios.delete(`/todos/${id}`),
+    },
+    categories:{
+        get: ()=>axios.get('/categories'),
+        // add: (data)=>axios.post('/categories',{data: data}),
+        // edit: (id: number)=>axios.put(`/categories/${id}`),
+        // delete: (id: number)=>axios.delete(`/categories/${id}`),
     }
 }
 

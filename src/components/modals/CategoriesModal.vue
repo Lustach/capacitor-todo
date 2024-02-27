@@ -25,9 +25,16 @@
               : '28px',
         }"
       >
-        <div class="categories-item_block" :style="{ ...item.styles }">
-          <ion-icon :src="icons[item.iconName]" color="primary"></ion-icon>
-        </div>
+        <ion-button fill="clear">
+          <ion-icon
+            slot="icon-only"
+            :icon="icons[item.icon_name]"
+            color="primary"
+          ></ion-icon>
+        </ion-button>
+        <!-- <div class="categories-item_block" :style="{ ...item.styles }">
+          <ion-icon :src="icons[item.icon_name]" color="primary"></ion-icon>
+        </div> -->
         <p class="categories-item_name">{{ item.name }}</p>
       </div>
       <div class="categories-item" id="btn-add">
@@ -60,25 +67,19 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, onMounted } from "vue";
 import * as icons from "ionicons/icons";
+import { useCategoriesStore } from "@/store/categories";
+
 import {
   createAnimation,
   IonButtons,
   IonButton,
   IonModal,
-  IonHeader,
-  IonContent,
   IonToolbar,
   IonTitle,
   IonIcon,
-  IonItem,
-  IonList,
-  IonAvatar,
-  IonImg,
-  IonLabel,
 } from "@ionic/vue";
-import { ref } from "vue";
-import { useCategoriesStore } from "@/store/categories";
 
 const modal = ref();
 
@@ -109,7 +110,9 @@ const leaveAnimation = (baseEl) => {
   return enterAnimation(baseEl).direction("reverse");
 };
 const store = useCategoriesStore();
-
+onMounted(() => {
+  store.getCategories();
+});
 // function importIcon(name: string) {
 //   const icons = import(`ionicons/icons`);
 //   icons.then((module) => {

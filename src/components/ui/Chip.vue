@@ -10,33 +10,27 @@
     <ion-icon :icon="closeCircle"></ion-icon>
   </ion-chip> -->
 
-  <ion-chip>
-    <ion-icon :icon="pin" color="primary"></ion-icon>
-    <ion-label>{{ info.name || info }}</ion-label>
+  <ion-chip :style="{ ...info.styles }">
+    <ion-icon :icon="icons[info.icon_name]" :style="{ color: '#fff' }"></ion-icon>
+    <ion-label style="color: #fff">{{ info.name }}</ion-label>
     <!-- <ion-icon :icon="close"></ion-icon> -->
   </ion-chip>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import * as icons from "ionicons/icons";
 import { IonChip, IonAvatar, IonLabel, IonIcon } from "@ionic/vue";
 import { close, closeCircle, pin } from "ionicons/icons";
-import { defineComponent } from "vue";
+import { onMounted } from "vue";
+import { useCategoriesStore } from "@/store/categories";
 
-export default defineComponent({
-  components: { IonChip, IonLabel, IonIcon },
-  props: {
-    info: {
-      type: String,
-      required: true,
-    },
-  },
-  setup() {
-    return {
-      close,
-      closeCircle,
-      pin,
-    };
-  },
+const store = useCategoriesStore();
+defineProps<{
+  info: any;
+}>();
+onMounted(() => {
+  // store.getCategories();
+  console.log(store.categoriesList);
 });
 </script>
 <style lang="scss" scoped>
@@ -52,8 +46,8 @@ $light-teal: #80ffa3; // Светло-бирюзовый
 $light-cyan: #80d1ff; // Светло-циан
 $light-orange: #ffcc80; // Светло-оранжевый
 ion-chip {
-  --background: #{$light-green-bg};
-  --color: #{$light-green-c};
+  /* --background: #{$light-green-bg}; */
+  /* --color: #{$light-green-c}; */
   border-radius: 4px;
   font-size: 12px;
 }

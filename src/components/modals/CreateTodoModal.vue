@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, unref } from "vue";
+import { ref } from "vue";
 import CategoriesModal from "@/components/modals/CategoriesModal.vue";
 import {
   IonButton,
