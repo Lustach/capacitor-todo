@@ -25,6 +25,10 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Categories',
     component: ()=> import('@/views/CategoriesPage.vue')
   },
+  // {
+  //   path: '/filters&marks',
+  //   name: 'Filters',
+  // }
 ]
 
 const router = createRouter({

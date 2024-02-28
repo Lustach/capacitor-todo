@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, inject, type Ref } from 'vue'
 import { API } from '../plugins/axiosType';
 
-import { Categories } from "@/types/categories";
+import { type Category } from "@/types/categories";
 
 export const useCategoriesStore = defineStore('categories', () => {
     const API:API = inject("API")!;
@@ -17,7 +17,7 @@ export const useCategoriesStore = defineStore('categories', () => {
     // const lightCyan = '#80d1ff'; // Светло-циан
     // const lightOrange = '#ffcc80'; // Светло-оранжевый
     
-    const categoriesList :Ref<Categories[]> = ref([
+    const categoriesList :Ref<Category[]> = ref([
         // {
         //     name: 'Работа',
         //     id: 0,
@@ -59,6 +59,9 @@ export const useCategoriesStore = defineStore('categories', () => {
             console.log(e)
         }
     }
-  
-    return { categoriesList,getCategories }
+    const addCategory = async(data:Category)=>{
+      const result = await API.categories.add(data)
+      return result
+    }
+    return { categoriesList,getCategories,addCategory }
 })

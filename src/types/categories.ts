@@ -2,9 +2,9 @@ interface CSSProperties {
     // color?: string;
     backgroundColor: string
   }
-export type Categories = {
+export type Category = {
     name: string;
-    id: number;
+    id?: number;
     icon_name: string;
-    style: CSSProperties
+    styles: CSSProperties
 }

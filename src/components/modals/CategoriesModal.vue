@@ -25,11 +25,15 @@
               : '28px',
         }"
       >
-        <ion-button fill="clear">
+        <ion-button
+          fill="clear"
+          :style="{ ...item.styles }"
+          @click="selectCategory(item)"
+        >
           <ion-icon
             slot="icon-only"
             :icon="icons[item.icon_name]"
-            color="primary"
+            :style="{ color: item.styles.color || 'white' }"
           ></ion-icon>
         </ion-button>
         <p class="categories-item_name">{{ item.name }}</p>
@@ -40,7 +44,7 @@
         </ion-button>
         <p class="categories-item_name">Создать</p>
       </div>
-      <CreateCategoryModal />
+      <AddCategoryModal />
       <!-- <div class="categories-item" id="btn-add">
         <ion-button fill="clear" size="small" style="width: auto">
           <div class="categories-item_block">
@@ -50,6 +54,13 @@
 
         <p class="categories-item_name">Создать</p>
       </div> -->
+      <ion-toast
+        :is-open="isOpen"
+        :message="'Выбрана категория: ' + selectedCategory"
+        :duration="5000"
+        @didDismiss="isOpen = false"
+        class="category-toast"
+      ></ion-toast>
     </div>
   </ion-modal>
 </template>
@@ -58,7 +69,7 @@
 import { ref, onMounted } from "vue";
 import * as icons from "ionicons/icons";
 import { useCategoriesStore } from "@/store/categories";
-import CreateCategoryModal from "./CreateCategoryModal.vue";
+import AddCategoryModal from "./AddCategoryModal.vue";
 import {
   createAnimation,
   IonButtons,
@@ -67,8 +78,10 @@ import {
   IonToolbar,
   IonTitle,
   IonIcon,
+  IonToast,
 } from "@ionic/vue";
 
+const isOpen = ref(false);
 const modal = ref();
 
 const dismiss = () => modal.value.$el.dismiss();
@@ -97,6 +110,15 @@ const enterAnimation = (baseEl: HTMLElement) => {
 const leaveAnimation = (baseEl) => {
   return enterAnimation(baseEl).direction("reverse");
 };
+
+const selectedCategory = ref("");
+const selectCategory = (item) => {
+  selectedCategory.value = item.name;
+  console.log(item);
+  dismiss();
+  isOpen.value = true;
+};
+
 const store = useCategoriesStore();
 onMounted(() => {
   store.getCategories();
@@ -112,6 +134,21 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+ion-toast.category-toast {
+  --background: #f4f4fa;
+  --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
+  --color: #4b4a50;
+}
+
+ion-toast.category-toast::part(message) {
+  font-style: italic;
+}
+
+ion-toast.category-toast::part(button) {
+  border-left: 1px solid #d2d2d2;
+  color: #030207;
+  font-size: 15px;
+}
 ion-modal#example-modal {
   --width: 100%;
   --min-width: 250px;
@@ -145,6 +182,14 @@ ion-modal#example-modal .wrapper {
     justify-content: center;
     align-items: center;
     margin-right: 16px;
+    ion-button {
+      border-radius: 6px;
+    }
+    ion-icon {
+      &:hover {
+        /* background-color: brightness(120%) !important; */
+      }
+    }
     &_block {
       width: 64px;
       height: 64px;

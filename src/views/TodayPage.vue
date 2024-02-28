@@ -73,7 +73,11 @@ const { deleteTodo, getTodoList } = useTodoStore();
 const completeItem = () => {};
 const getChipInfo = (category_id: number) => {
   //todo пересчёт при открытии модалки
-  console.log(store, category_id);
+  console.log(
+    category_id,
+    categoriesStore.categoriesList.find((e) => e.id),
+    "here"
+  );
   return categoriesStore.categoriesList.find((e) => e.id === category_id);
 };
 // const getChipInfo = computed(()=>{

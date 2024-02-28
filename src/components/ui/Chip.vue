@@ -10,10 +10,9 @@
     <ion-icon :icon="closeCircle"></ion-icon>
   </ion-chip> -->
 
-  <ion-chip :style="{ ...info.styles }">
+  <ion-chip v-if="info" :style="{ ...info.styles }">
     <ion-icon :icon="icons[info.icon_name]" :style="{ color: '#fff' }"></ion-icon>
     <ion-label style="color: #fff">{{ info.name }}</ion-label>
-    <!-- <ion-icon :icon="close"></ion-icon> -->
   </ion-chip>
 </template>
 

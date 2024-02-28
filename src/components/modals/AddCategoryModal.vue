@@ -9,23 +9,24 @@
       </ion-buttons>
     </ion-toolbar>
     <div class="wrapper">
-      <ColorPicker v-model:pureColor="model" />
+      <ColorPicker v-model:pureColor="colorModel" />
       <ion-input
         style="margin: 10px 0"
         label="Название категории"
         label-placement="floating"
         fill="outline"
         placeholder="Введите текст"
-        ref="name"
+        ref="category"
         error-text="Заполните поле"
+        v-model="categoryName"
       ></ion-input>
       <div style="display: flex; align-items: center">
         <ion-input
-          label="Название категории"
+          label="Название иконки (ion icons)"
           label-placement="floating"
           fill="outline"
           placeholder="Введите текст"
-          ref="name"
+          ref="icon"
           error-text="Заполните поле"
           v-model="iconName"
         ></ion-input>
@@ -39,8 +40,8 @@
         <ion-button fill="clear" shape="round" size="small" @click="dismiss">
           Отмена
         </ion-button>
-        <ion-button fill="clear" shape="round" size="small" @click="dismiss">
-          Далее
+        <ion-button fill="clear" shape="round" size="small" @click="createCategory">
+          Создать
         </ion-button>
       </div>
     </div>
@@ -59,10 +60,26 @@ import {
   IonDatetime,
   IonTextarea,
 } from "@ionic/vue";
-const model = ref();
+import { useCategoriesStore } from "@/store/categories";
+
+const store = useCategoriesStore();
+
+const colorModel = ref('');
+const categoryName = ref('')
+const iconName = ref("starOutline");
+
 const modal = ref();
-const iconName = ref("");
 const dismiss = () => modal.value.$el.dismiss();
+
+const createCategory = ()=>{
+  const data = {
+    name: categoryName.value,
+    styles: JSON.stringify({backgroundColor: colorModel.value}),
+    icon_name: iconName.value,
+  }
+  dismiss();
+  store.addCategory(data)
+}
 </script>
 <style scoped>
 ion-modal#modal {

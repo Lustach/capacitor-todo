@@ -9,7 +9,7 @@ const API: API = {
     },
     categories:{
         get: ()=>axios.get('/categories'),
-        // add: (data)=>axios.post('/categories',{data: data}),
+        add: (data)=>axios.post('/categories',{data: data}),
         // edit: (id: number)=>axios.put(`/categories/${id}`),
         // delete: (id: number)=>axios.delete(`/categories/${id}`),
     }

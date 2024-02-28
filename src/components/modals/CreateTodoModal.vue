@@ -79,6 +79,7 @@ import {
   IonIcon,
   IonDatetime,
   IonTextarea,
+  IonToast
 } from "@ionic/vue";
 import { timeOutline, pricetagOutline, flagOutline, sendOutline } from "ionicons/icons";
 import { useTodoStore } from "@/store/todoStore";
@@ -89,7 +90,7 @@ import { z } from "zod";
 //   description: Ref<string>;
 // }
 
-
+const isOpen = ref(true);
 const todo = z.object({
   name: z.string().min(2).max(60),
   description: z.string().min(5).max(200),
